@@ -1,0 +1,53 @@
+module Puffery
+  module Builder
+    class AdGroup < Base
+
+      attr_accessor :keywords, :ads
+
+      attributes :ad_group_name, :campaign_token
+
+      def initialize(subject)
+        self.subject = Proxy.new(subject)
+        self.keywords = []
+        self.ads = []
+      end
+
+      def validate
+        validate_presence_of(:ad_group_name, :campaign_token)
+      end
+
+      # NOTE: We extend the subject with additional methods that may be useful
+      # only when building the payload. This is possible by using the Proxy
+      def helper(name, &block)
+        delegation_obj = subject.__getobj__
+        subject.define_singleton_method(name.to_sym) do
+          instance_exec(delegation_obj, &block)
+        end
+      end
+
+      def to_hash
+        data = {}
+        data[:name] = ad_group_name
+        data[:campaign_token] = campaign_token
+        data[:keywords] = keywords.select(&:valid?).map(&:to_hash)
+        data[:ads] = ads.select(&:valid?).map(&:to_hash)
+        { ad_group: data }
+      end
+
+      def ad(&block)
+        ad = Ad.new(subject)
+        ad.eval_dsl_block(&block) if block_given?
+        ads.push(ad)
+      end
+
+      def keyword(text = nil, attrs = {}, &block)
+        keyword = Keyword.new(subject)
+        keyword.text = text
+        keyword.set_attributes(attrs)
+        keyword.eval_dsl_block(&block) if block_given?
+        keywords.push(keyword)
+      end
+
+    end
+  end
+end
