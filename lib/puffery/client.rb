@@ -5,9 +5,9 @@ module Puffery
 
     attr_accessor :url, :key
 
-    def initialize(url, key)
-      self.url = url
-      self.key = key
+    def initialize(url = nil, key = nil)
+      self.url = url || Puffery.configuration.api_url || raise('Missing Api URL')
+      self.key = key || Puffery.configuration.api_key || raise('Missing Api key')
     end
 
     def auth_header
