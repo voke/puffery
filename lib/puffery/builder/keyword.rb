@@ -11,7 +11,7 @@ module Puffery
       # http://support.google.com/adwords/bin/answer.py?hl=en&answer=53539
       INVALID_CHARS = /[,!@%^*()={};~`´’<>?\|®™²»]/
 
-      attributes :text, :match_type, :final_urls
+      attributes :text, :match_type, :url
 
       def initialize(subject)
         self.match_type = DEFAULT_MATCH_TYPE
@@ -23,7 +23,7 @@ module Puffery
           public_send("#{key}=", value)
         end
       end
-      
+
       def validate
         errors << "Invalid matchtype" unless valid_match_type?
         errors << "Invalid char length" unless valid_char_length?
