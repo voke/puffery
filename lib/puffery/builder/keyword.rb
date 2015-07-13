@@ -3,7 +3,7 @@ module Puffery
     class Keyword < Base
 
       DEFAULT_MATCH_TYPE = :broad
-      MATCH_TYPES = { broad: 'BROAD', phrase: 'PHRASE', exact: 'EXACT' }
+      MATCH_TYPES = { broad: 'broad', phrase: 'phrase', exact: 'exact' }
       MAX_CHARS = 80
       MAX_WORDS = 10
 
