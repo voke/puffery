@@ -26,12 +26,12 @@ module Puffery
       end
 
       def to_hash
-        data = {}
-        data[:name] = ad_group_name
-        data[:campaign_token] = campaign_token
+        data = { ad_group: {} }
+        data[:ad_group][:name] = ad_group_name
+        data[:ad_group][:campaign_token] = campaign_token
         data[:keywords] = keywords.select(&:valid?).map(&:to_hash)
         data[:ads] = ads.select(&:valid?).map(&:to_hash)
-        { ad_group: data }
+        data
       end
 
       def ad(&block)
