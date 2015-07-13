@@ -14,7 +14,7 @@ module Puffery
     def self.build(target, namespace)
       ad_group = AdGroup.new(target)
       ad_group.eval_dsl_block(&namespace.block)
-      ad_group
+      ad_group.to_hash
     end
 
   end
