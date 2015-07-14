@@ -5,7 +5,7 @@ module Puffery
     # for :remote_uid, :checksum
 
     def sync
-      is_advertisable? up : down
+      is_advertisable? ? up : down
     end
 
     # NOTE: Change name of this method to something better
