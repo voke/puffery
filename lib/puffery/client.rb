@@ -23,20 +23,24 @@ module Puffery
         { 'Content-Type' => 'application/json' })
     end
 
-    def up(resource)
-      payload = Puffery.build_payload(resource)
-      payload[:ad_group][:status] = 'enabled'
-      uid = resource.remote_uid
-      raise 'Missing UID' unless uid
-      response = conn.put(path: "/api/ad_groups/#{resource.remote_uid}",
-        body: JSON.dump(payload)
-      )
-      handle_errors(response)
-      response
+    def up(uid, payload)
+      json = request(:put, "/api/ad_groups/#{uid}", payload.raw)
+      json['ad_group']
     end
 
-    def handle_errors(response)
-      data = JSON.parse(response.body)
+    def down(uid)
+      json = request(:patch, "/api/ad_groups/#{uid}", { status: 'paused' })
+      json['ad_group']
+    end
+
+    def request(method, path, body = {})
+      res = conn.request(method: method, path: path, body: JSON.dump(body))
+      json = JSON.parse(res.body)
+      handle_errors(json)
+      json
+    end
+
+    def handle_errors(data)
       if data['errors'].any?
         raise RequestError,
           "Request Error occurred: %s" % data['errors'].first
