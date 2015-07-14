@@ -38,7 +38,8 @@ module Puffery
     end
 
     def down
-      if client.down(self)
+      if client.down(self.remote_uid)
+        true
         # Sätt något för att visa att den är nere. LAST_SYNCED_AT?
       end
     end
@@ -52,8 +53,9 @@ module Puffery
     end
 
     def push_to_remote
-      if response = client.up(self)
-        set_remote_uid(response[:uid])
+      if data = client.up(remote_uid, payload)
+        set_remote_uid(data['uid'])
+        true
       end
     end
 
