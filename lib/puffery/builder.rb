@@ -7,6 +7,7 @@ require 'puffery/builder/ad'
 require 'puffery/builder/keyword'
 require 'puffery/builder/interpolated_string'
 require 'puffery/builder/dsl_builder'
+require 'puffery/builder/payload'
 
 module Puffery
   module Builder
@@ -14,7 +15,7 @@ module Puffery
     def self.build(target, namespace)
       ad_group = AdGroup.new(target)
       ad_group.eval_dsl_block(&namespace.block)
-      ad_group.to_hash
+      Payload.new(ad_group.to_hash)
     end
 
   end
