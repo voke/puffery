@@ -49,6 +49,7 @@ Puffery.register :product do
     display_url 'www.example.com'
   end
 
+  # Defaults to BROAD match type
   keyword 'space hotel'
 
   keyword 'mars cruise' do
