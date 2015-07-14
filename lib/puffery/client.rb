@@ -24,7 +24,11 @@ module Puffery
     end
 
     def up(uid, payload)
-      json = request(:put, "/api/ad_groups/#{uid}", payload.raw)
+      json = if uid
+        request(:put, "/api/ad_groups/#{uid}", payload.raw)
+      else
+        request(:post, '/api/ad_groups', payload.raw)
+      end
       json['ad_group']
     end
 
