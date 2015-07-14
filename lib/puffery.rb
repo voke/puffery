@@ -4,6 +4,7 @@ require 'puffery/client'
 require 'puffery/namespace'
 require 'puffery/engine' if defined?(Rails)
 require 'puffery/builder'
+require 'puffery/model'
 
 module Puffery
 
