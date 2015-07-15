@@ -34,6 +34,10 @@ module Puffery
     Namespace.add(name, &block)
   end
 
+  def url_helper
+    @url_helper ||= UrlHelper.new
+  end
+
   def build_payload(resource, ns_name = nil)
     ns_name ||= resource.namespace
     namespace = Namespace.find(ns_name)
