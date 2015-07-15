@@ -2,11 +2,10 @@ require 'puffery/version'
 require 'puffery/configuration'
 require 'puffery/client'
 require 'puffery/namespace'
-require 'puffery/engine' if defined?(Rails)
-require 'puffery/url_helper' if defined?(Rails)
 require 'puffery/builder'
 require 'puffery/model'
 require 'puffery/core_ext/string'
+require 'puffery/engine' if defined?(Rails)
 
 module Puffery
 
@@ -35,7 +34,10 @@ module Puffery
   end
 
   def url_helper
-    @url_helper ||= UrlHelper.new
+    @url_helper ||= begin
+      raise 'Rails must be defined to use URL helpers' unless defined?(Rails)
+      Rails.application.routes.url_helpers
+    end
   end
 
   def build_payload(resource, ns_name = nil)
