@@ -60,6 +60,10 @@ module Puffery
         attributes
       end
 
+      def url_helper
+        @url_helper ||= UrlHelper.instance
+      end
+
       def method_missing(method, *args, &block)
         if subject.respond_to?(method)
           subject.send(method, *args, &block)
