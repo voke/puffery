@@ -61,7 +61,7 @@ module Puffery
       end
 
       def url_helper
-        @url_helper ||= UrlHelper.instance
+        @url_helper ||= Puffery::UrlHelper.instance
       end
 
       def method_missing(method, *args, &block)
