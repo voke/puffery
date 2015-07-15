@@ -60,13 +60,16 @@ module Puffery
         attributes
       end
 
-      # TODO: If you’re going to use method_missing, be sure to implement respond_to?
       def method_missing(method, *args, &block)
         if subject.respond_to?(method)
           subject.send(method, *args, &block)
         else
           super
         end
+      end
+
+      def respond_to?(method_name, include_private = false)
+        subject.respond_to?(method_name) || super
       end
 
     end
