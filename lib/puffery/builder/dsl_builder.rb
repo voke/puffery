@@ -12,8 +12,8 @@ module Puffery
         end
       end
 
-      def _valid_attribute?(name)
-        __getobj__.respond_to?("#{name}=")
+      def _valid_setter?(name)
+        __getobj__.methods.include?(:"#{name}=")
       end
 
       def _add_variation(name, value)
@@ -21,7 +21,7 @@ module Puffery
       end
 
       def method_missing(method_name, *arguments, &block)
-        if _valid_attribute?(method_name)
+        if _valid_setter?(method_name)
           _add_variation(method_name, *arguments, &block)
         else
           super
