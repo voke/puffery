@@ -18,6 +18,10 @@ module Puffery
         super(subject)
       end
 
+      def dsl_attributes
+        %i(text match_type url)
+      end
+
       def set_attributes(attrs = {})
         attrs.each do |key, value|
           public_send("#{key}=", value)

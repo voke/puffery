@@ -10,6 +10,10 @@ module Puffery
         validate_presence_of(*ATTRIBUTES)
       end
 
+      def dsl_attributes
+        ATTRIBUTES
+      end
+
     end
   end
 end

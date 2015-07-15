@@ -12,6 +12,10 @@ module Puffery
         self.ads = []
       end
 
+      def dsl_attributes
+        %i(ad_group_name campaign_token)
+      end
+
       def validate
         validate_presence_of(:ad_group_name, :campaign_token)
       end

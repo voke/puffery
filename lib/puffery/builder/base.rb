@@ -21,6 +21,10 @@ module Puffery
         end
       end
 
+      def dsl_attributes
+        []
+      end
+
       def valid?
         errors.clear
         validate

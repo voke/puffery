@@ -13,7 +13,7 @@ module Puffery
       end
 
       def _valid_setter?(name)
-        __getobj__.methods.include?(:"#{name}=")
+        __getobj__.dsl_attributes.include?(name)
       end
 
       def _add_variation(name, value)
