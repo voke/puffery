@@ -2,11 +2,12 @@ module Puffery
   module Builder
     class Ad < Base
 
-      attributes :headline, :description1, :description2, :display_url, :url
+      ATTRIBUTES = %i(headline description1 description2 display_url url)
+
+      attributes *ATTRIBUTES
 
       def validate
-        validate_presence_of(:headline, :description1, :description2,
-          :display_url, :url)
+        validate_presence_of(*ATTRIBUTES)
       end
 
     end
