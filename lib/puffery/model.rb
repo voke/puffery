@@ -49,7 +49,7 @@ module Puffery
     end
 
     def set_remote_uid(uid)
-      update_column(remote_uid: uid)
+      update_column(:remote_uid, uid)
     end
 
     def push_to_remote
