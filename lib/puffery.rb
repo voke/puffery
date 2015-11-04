@@ -20,7 +20,7 @@ module Puffery
   end
 
   def load_files
-    files_in_load_path.each { |file| require_dependency(file) }
+    files_in_load_path.each { |file| require(file) }
   end
 
   def files_in_load_path
