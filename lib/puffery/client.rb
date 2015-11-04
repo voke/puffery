@@ -7,6 +7,9 @@ module Puffery
     USER_AGENT = "Puffery Ruby #{Puffery::VERSION}"
     RequestError = Class.new(StandardError)
 
+    STATUS_ENABLED = 'enabled'
+    STATUS_PASUED = 'paused'
+
     attr_accessor :url, :key
 
     def initialize(url = nil, key = nil)
@@ -24,16 +27,17 @@ module Puffery
     end
 
     def up(uid, payload)
+      payload[:ad_group][:status] = STATUS_ENABLED
       json = if uid
-        request(:put, "/api/ad_groups/#{uid}", payload.raw)
+        request(:put, "/api/ad_groups/#{uid}", payload)
       else
-        request(:post, '/api/ad_groups', payload.raw)
+        request(:post, '/api/ad_groups', payload)
       end
       json['ad_group']
     end
 
-    def down(uid)
-      json = request(:patch, "/api/ad_groups/#{uid}", { status: 'paused' })
+    def down(uid, attrs = { status: STATUS_PASUED })
+      json = request(:patch, "/api/ad_groups/#{uid}", attrs)
       json['ad_group']
     end
 
