@@ -20,6 +20,10 @@ module Puffery
     yield configuration
   end
 
+  def debug?
+    !!configuration.debug
+  end
+
   def load_files
     files_in_load_path.each { |file| require(file) }
   end

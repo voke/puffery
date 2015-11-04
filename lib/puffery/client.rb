@@ -22,7 +22,7 @@ module Puffery
     end
 
     def conn
-      @conn ||= Excon.new(self.url, debug: true, headers:
+      @conn ||= Excon.new(self.url, debug: Puffery.debug?, headers:
         { 'Content-Type' => 'application/json' })
     end
 

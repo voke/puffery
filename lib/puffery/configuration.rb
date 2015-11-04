@@ -1,7 +1,7 @@
 module Puffery
   class Configuration
 
-    attr_accessor :api_url, :api_key, :load_paths
+    attr_accessor :api_url, :api_key, :load_paths, :debug
 
     def initialize
       if defined?(Rails)
