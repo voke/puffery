@@ -26,6 +26,7 @@ This file is usually located at `/config/initializers/puffery.rb`.
 Puffery.configure do |config|
   config.api_url = "https://example.com"
   config.api_key = "secret"
+  config.debug = false
 end
 ```
 
