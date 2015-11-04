@@ -1,15 +1,14 @@
-module Puffery
-  class Payload
+class Payload < Hash
 
-    attr_accessor :raw
-
-    def initialize(raw)
-      self.raw = raw
+  def initialize(other_hash)
+    super
+    other_hash.each_pair do |key, value|
+      self[key] = value
     end
-
-    def checksum
-      @checksum ||= Digest::MD5.hexdigest(Marshal.dump(raw))
-    end
-
   end
+
+  def checksum
+    @checksum ||= Digest::MD5.hexdigest(Marshal.dump(self))
+  end
+
 end
