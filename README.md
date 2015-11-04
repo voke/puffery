@@ -75,7 +75,7 @@ class Product < ActiveRecord::Base
   include Puffery::Model
 
   # This is the default method to determine if the
-  # ad group should
+  # ad group should be enabled or paused.
   def advertise?
     self.price > 100
   end
@@ -105,7 +105,7 @@ class AdGroup < ActiveRecord::Base
 end
 ```
 
-The `puffery` class method supports options for `namespace`, `subject` and `valid`
+The `puffery()` class method supports options for `:namespace`, `:subject` and `:valid`.
 
 | Name      | Default                  | Comment                                                                                                                                                   |
 |-----------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
