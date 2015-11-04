@@ -5,6 +5,10 @@ module Puffery
       @puffery ||= Puffery::Decorator.new(self, self.class.puffery_options)
     end
 
+    def sync_ads
+      puffery.sync
+    end
+
     module ClassMethods
 
       def puffery_options
