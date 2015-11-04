@@ -45,8 +45,8 @@ Puffery.register :product do
     headline 'Luxury Cruise to Mars'
     description1 'Visit the Red Planet.'
     description2 'Low-gravity for only ¢%{price_in_cents}'
-    final_urls ['http://www.example.com/mars']
     display_url 'www.example.com'
+    url 'http://www.example.com/mars'
   end
 
   # Defaults to BROAD match type
@@ -66,6 +66,52 @@ Puffery.register :product do
 
 end
 ```
+
+### Basic Model
+
+```ruby
+class Product < ActiveRecord::Base
+
+  include Puffery::Model
+
+  # This is the default method to determine if the
+  # ad group should
+  def advertise?
+    self.price > 100
+  end
+
+end
+```
+
+Just call `Product.find(1).sync_ads` to push ad group, ads and keywords to remote server
+
+### Advanced Model
+
+Sometimes it's better to use a polymorphic model to store data about the ad groups. In that case, we need to configure some options.
+
+```ruby
+class AdGroup < ActiveRecord::Base
+
+  include Puffery::Model
+
+  puffery namespace: -> x { x.advertisable_type.parameterize }, subject: :advertisable
+
+  belongs_to :advertisable, polymorphic: true
+
+  def advertise?
+    advertisable.should_advertise?
+  end
+
+end
+```
+
+The `puffery` class method supports options for `namespace`, `subject` and `valid`
+
+| Name      | Default                  | Comment                                                                                                                                                   |
+|-----------|--------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------|
+| namespace | self.class.name.downcase | The corresponding name for the schema                                                                                                                     |
+| subject   | self                     | The object used when building payload from schema                                                                                                         |
+| valid     | :advertise?              | The method puffery calls to determine if it should enable or pause the ad group. The argument can be either a :symbol (method), block or any other value. |
 
 ## Contributing
 
