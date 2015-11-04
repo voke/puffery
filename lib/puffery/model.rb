@@ -1,74 +1,24 @@
 module Puffery
   module Model
 
-    # The model who includes this module must provide attributes
-    # for :remote_uid, :checksum
-
-    def sync
-      is_advertisable? ? up : down
+    def puffery
+      @puffery ||= Puffery::Decorator.new(self, self.class.puffery_options)
     end
 
-    # NOTE: Change name of this method to something better
-    def is_advertisable?
-      false
-    end
+    module ClassMethods
 
-    def checksum_changed?
-      clear_payload!
-      payload.checksum != self.checksum
-    end
-
-    def unlink
-      client.unlink(self.remote_uid)
-    end
-
-    # NOTE: ska dessa har någon typ av prefix?
-    def subject
-      self
-    end
-
-    def namespace
-      self.class.to_s
-    end
-
-    protected
-
-    def up
-      push_to_remote if checksum_changed?
-    end
-
-    def down
-      if client.down(self.remote_uid)
-        true
-        # Sätt något för att visa att den är nere. LAST_SYNCED_AT?
+      def puffery_options
+        @puffery_options ||= {}
       end
-    end
 
-    def client
-      @client ||= Puffery::Client.new
-    end
-
-    def set_remote_uid(uid)
-      update_column(:remote_uid, uid)
-    end
-
-    def push_to_remote
-      if data = client.up(remote_uid, payload)
-        set_remote_uid(data['uid'])
-        true
+      def puffery(options = {})
+        @puffery_options = options
       end
+
     end
 
-    def clear_payload!
-      @payload = nil
-    end
-
-    def payload
-      @payload ||= build_payload
-    end
-
-    def build_payload
-      Puffery.build_payload(subject, namespace)
+    def self.included(base)
+      base.extend(ClassMethods)
     end
 
   end
