@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Puffery::VERSION
   spec.authors       = ["Gustav"]
   spec.email         = ["gustav@invoke.se"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Simple DSL to generate ad groups and keywords}
+  spec.description   = %q{Simple DSL to generate ad groups and keywords}
   spec.homepage      = ""
   spec.license       = "MIT"
 

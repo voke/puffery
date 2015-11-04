@@ -22,6 +22,7 @@ module Puffery
 
       # NOTE: We extend the subject with additional methods that may be useful
       # only when building the payload. This is possible by using the Proxy
+      # TODO: Warn if method is already defined on subject.__getobj__
       def helper(name, &block)
         delegation_obj = subject.__getobj__
         subject.define_singleton_method(name.to_sym) do
