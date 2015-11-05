@@ -41,6 +41,11 @@ module Puffery
       json['ad_group']
     end
 
+    def unlink(uid)
+      json = request(:delete, "/api/ad_groups/#{uid}")
+      json['ad_group']
+    end
+
     def request(method, path, body = {})
       res = conn.request(method: method, path: path, body: JSON.dump(body))
       json = JSON.parse(res.body)
