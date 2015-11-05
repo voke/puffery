@@ -56,6 +56,10 @@ module Puffery
       @payload ||= build_payload
     end
 
+    def exists_on_remote?
+      !!remote_uid
+    end
+
     protected
 
     def up
@@ -63,7 +67,7 @@ module Puffery
     end
 
     def down
-      if client.down(remote_uid)
+      if exists_on_remote? && client.down(remote_uid)
         true
         # Sätt något för att visa att den är nere. LAST_SYNCED_AT?
       end
