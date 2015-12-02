@@ -17,13 +17,9 @@ module Puffery
       self.key = key || Puffery.configuration.api_key || raise('Missing Api key')
     end
 
-    def auth_header
-      "Token token='#{key}'"
-    end
-
     def conn
       @conn ||= Excon.new(self.url, debug: Puffery.debug?, headers:
-        { 'Content-Type' => 'application/json' })
+        { 'Content-Type' => 'application/json', 'X-API-KEY' => key })
     end
 
     def up(uid, payload)
