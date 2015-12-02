@@ -1,12 +1,12 @@
 require 'spec_helper'
 
-describe Keyword do
+describe Puffery::Builder::Keyword do
 
   describe '#initialize' do
 
     it "sets default match type" do
-      keyword = Keyword.new
-      keyword.match_type.must_equal 'BROAD'
+      keyword = Puffery::Builder::Keyword.new('')
+      keyword.match_type.must_equal 'broad'
     end
 
   end
