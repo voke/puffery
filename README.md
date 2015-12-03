@@ -63,7 +63,7 @@ Puffery.register :product do
   end
 
   keyword 'mars %{name}'
-  keyword 'meet martians', final_urls: ['http://example.com/martians']
+  keyword 'meet martians', url: 'http://example.com/martians'
 
 end
 ```
