@@ -9,7 +9,7 @@ module Puffery
 
       # NOTE: A list of known invalid chars can be found here:
       # http://support.google.com/adwords/bin/answer.py?hl=en&answer=53539
-      INVALID_CHARS = /[,!@%^*()={};~`´’<>?\|®™²»]–/
+      INVALID_CHARS = /[,!@%^*()={};~`´’<>?\|®™²»–]/
 
       attributes :text, :match_type, :url
 
