@@ -1,3 +1,5 @@
+require 'unicode'
+
 module Puffery
   module Builder
     class Keyword < Base
@@ -51,7 +53,11 @@ module Puffery
       end
 
       def text=(value)
-        @text = Keyword.filter_invalid_chars(value)
+        @text = Keyword.normalize(value)
+      end
+
+      def self.normalize(text)
+        Unicode.downcase(filter_invalid_chars(text))
       end
 
       def self.filter_invalid_chars(text)
