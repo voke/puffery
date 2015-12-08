@@ -49,7 +49,9 @@ module Puffery
     end
 
     def unlink
-      client.unlink(remote_uid)
+      if client.unlink(remote_uid)
+        nullify_remote_uid if model.persisted?
+      end
     end
 
     def payload
@@ -75,6 +77,10 @@ module Puffery
 
     def client
       @client ||= Puffery::Client.new
+    end
+
+    def nullify_remote_uid
+      model.update_column(:remote_uid, nil)
     end
 
     def set_remote_uid(uid)
