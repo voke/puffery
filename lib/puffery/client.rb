@@ -22,8 +22,8 @@ module Puffery
         { 'Content-Type' => 'application/json', 'X-API-KEY' => key })
     end
 
-    def up(uid, payload)
-      payload[:ad_group][:status] = STATUS_ENABLED
+    def push(uid, payload, active:)
+      payload[:ad_group][:status] = active ? STATUS_ENABLED : STATUS_PASUED
       json = if uid
         request(:put, "/api/ad_groups/#{uid}", payload)
       else

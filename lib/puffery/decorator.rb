@@ -82,7 +82,7 @@ module Puffery
     end
 
     def push_to_remote
-      if data = client.up(remote_uid, payload)
+      if data = client.push(remote_uid, payload, active: valid_advertisement?)
         set_remote_uid(data['uid']) unless exists_on_remote?
         true
       end
