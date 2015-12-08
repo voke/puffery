@@ -17,15 +17,15 @@ module Puffery
     end
 
     def namespace
-      compute_option(options[:namespace])
+      @namespace ||= compute_option(options[:namespace])
     end
 
     def valid_advertisement?
-      compute_option(options[:valid])
+      @valid_advertisement ||= compute_option(options[:valid])
     end
 
     def subject
-      compute_option(options[:subject])
+      @subject ||= compute_option(options[:subject])
     end
 
     def compute_option(value)
