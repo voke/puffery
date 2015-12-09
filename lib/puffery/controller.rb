@@ -87,9 +87,14 @@ module Puffery
       model.update_column(:remote_uid, uid)
     end
 
+    def set_checksum(new_checksum)
+      model.update_column(:checksum, new_checksum)
+    end
+
     def push_to_remote
       if data = client.push(remote_uid, payload, active: valid_advertisement?)
         set_remote_uid(data['uid']) unless exists_on_remote?
+        set_checksum(payload.checksum)
         true
       end
     end
