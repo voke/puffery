@@ -2,7 +2,7 @@ module Puffery
   module Model
 
     def puffery
-      @puffery ||= Puffery::Decorator.new(self, self.class.puffery_options)
+      @puffery ||= Puffery::Controller.new(self, self.class.puffery_options)
     end
 
     def sync_ads

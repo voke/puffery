@@ -3,7 +3,7 @@ require 'puffery/configuration'
 require 'puffery/client'
 require 'puffery/namespace'
 require 'puffery/builder'
-require 'puffery/decorator'
+require 'puffery/controller'
 require 'puffery/model'
 require 'puffery/core_ext/string'
 require 'puffery/engine' if defined?(Rails)

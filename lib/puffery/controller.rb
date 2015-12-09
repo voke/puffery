@@ -1,5 +1,5 @@
 module Puffery
-  class Decorator
+  class Controller
 
     extend Forwardable
     def_delegators :model, :remote_uid, :checksum
