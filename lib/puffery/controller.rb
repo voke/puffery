@@ -70,8 +70,8 @@ module Puffery
 
     def down
       if exists_on_remote? && client.down(remote_uid)
+        set_checksum(nil)
         true
-        # Sätt något för att visa att den är nere. LAST_SYNCED_AT?
       end
     end
 
