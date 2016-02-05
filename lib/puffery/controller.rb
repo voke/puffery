@@ -51,6 +51,7 @@ module Puffery
     def unlink
       if client.unlink(remote_uid)
         nullify_remote_uid if model.persisted?
+        true
       end
     end
 
