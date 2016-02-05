@@ -39,7 +39,7 @@ module Puffery
 
     def unlink(uid)
       json = request(:delete, "/api/ad_groups/#{uid}")
-      json['ad_group']
+      json['ad_group']['deleted_at']
     end
 
     def request(method, path, body = {})
