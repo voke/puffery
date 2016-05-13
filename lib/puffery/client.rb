@@ -6,6 +6,7 @@ module Puffery
 
     USER_AGENT = "Puffery Ruby #{Puffery::VERSION}"
     RequestError = Class.new(StandardError)
+    ResourceNotFoundError = Class.new(RequestError)
 
     STATUS_ENABLED = 'enabled'
     STATUS_PASUED = 'paused'
@@ -51,8 +52,12 @@ module Puffery
 
     def handle_errors(data)
       if data['errors'].any?
-        raise RequestError,
-          "Request Error occurred: %s" % data['errors'].first
+        if data['code'] == 404
+          raise ResourceNotFoundError, data['errors'].first
+        else
+          raise RequestError,
+            "Request Error occurred: %s" % data['errors'].first
+        end
       end
     end
 
