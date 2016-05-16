@@ -6,7 +6,8 @@ module Puffery
 
     DEFAULT_OPTIONS = {
       valid: :advertise?,
-      namespace: -> model { model.class.name.downcase }
+      namespace: -> model { model.class.name.downcase },
+      subject: -> model { model }
     }
 
     attr_accessor :model, :options
