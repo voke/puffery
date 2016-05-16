@@ -61,20 +61,6 @@ module Puffery
       end
     end
 
-    def add_keyword(uid, params = {})
-      json = request(:post, "/api/ad_groups/#{uid}/keywords", {
-        keyword: params
-      })
-      json
-    end
-
-    def remove_keyword(uid, params = {})
-      json = request(:delete, "/api/ad_groups/#{uid}/keywords", {
-        keyword: params
-      })
-      json
-    end
-
     # Update partial resources
     def patch(payload)
     end

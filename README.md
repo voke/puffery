@@ -114,21 +114,6 @@ The `puffery()` class method supports options for `:namespace`, `:subject` and `
 | subject   | self                     | The object used when building payload from schema                                                                                                         |
 | valid     | :advertise?              | The method puffery calls to determine if it should enable or pause the ad group. The argument can be either a :symbol (method), block or any other value. |
 
-### Work directly with API Client
-
-You can use the `Puffery::Client` to talk directly to the server. This is useful when you want to add/remove keywords.
-
-```ruby
-client = Puffery::Client.new
-
-# Add keyword to AdGroup with uid 537b3c8
-client.add_keyword('537b3c8', { match_type: 'broad',
-  text: 'snowboard', url: 'http://example.com/ski' })
-
-# Remove keyword from AdGroup
-client.remove_keyword('537b3c8', { match_type: 'broad', text: 'snowboard' })
-```
-
 ## Contributing
 
 1. Fork it ( https://github.com/[my-github-username]/puffery/fork )
