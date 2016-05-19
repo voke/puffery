@@ -32,7 +32,7 @@ module Puffery
       namespace = Namespace.new(name, &block)
       if exists?(namespace)
         error_msg = "Namespace named '#{name}' already exists."
-        raise DuplicateError, error_msg
+        warn error_msg
       else
         @namespaces.push(namespace)
       end
