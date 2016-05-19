@@ -25,7 +25,10 @@ module Puffery
   end
 
   def load_files
-    files_in_load_path.each { |file| require(file) }
+    if !@loaded
+      files_in_load_path.each { |file| require(file) }
+      @loaded = true
+    end
   end
 
   def files_in_load_path
