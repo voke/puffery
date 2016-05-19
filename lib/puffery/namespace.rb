@@ -31,7 +31,7 @@ module Puffery
     def self.add(name, &block)
       namespace = Namespace.new(name, &block)
       if exists?(namespace)
-        error_msg = "Namespace named '#{name}' already exists."
+        error_msg = "Warning from puffery: Namespace named '#{name}' already exists."
         warn error_msg
       else
         @namespaces.push(namespace)
