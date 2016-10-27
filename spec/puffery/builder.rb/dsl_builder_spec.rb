@@ -21,10 +21,9 @@ describe Puffery::Builder::DslBuilder do
     it 'delegates to target object' do
 
       mock = MiniTest::Mock.new
-      builder = Puffery::Builder::DslBuilder.wrap(mock, [:name],
-        setter: 'write_attribute')
+      builder = Puffery::Builder::DslBuilder.wrap(mock, [:name])
 
-      mock.expect(:write_attribute, nil, [:name, 'foobar'])
+      mock.expect("name=", nil, ['foobar'])
       builder._set_attribute(:name, 'foobar')
 
     end

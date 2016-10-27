@@ -30,6 +30,7 @@ describe Puffery do
         keywords: [
           { match_type: "broad", text: "space hotel" },
           { match_type: "broad", text: "mars cruise" },
+          { match_type: "broad", text: "red planet" },
           { match_type: "broad", text: "mars beginner mars cruise" },
           { match_type: "broad", text: "meet martians", url: "http://example.com/martians" }
         ],
