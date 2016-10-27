@@ -10,7 +10,7 @@ Puffery.register :dummy do
   ad do
     headline 'Luxury Cruise to Mars'
     description1 'Visit the Red Planet.'
-    description2 'Low-gravity for only ¢%{price_in_cents}'
+    description2 "Low-gravity for only ¢#{price_in_cents}"
     display_url 'www.example.com'
     url 'http://www.example.com/mars'
   end
@@ -27,7 +27,7 @@ Puffery.register :dummy do
     match_type :exact
   end
 
-  keyword 'mars %{name}'
+  keyword "mars #{name}"
   keyword 'meet martians', url: 'http://example.com/martians'
 
 end
