@@ -5,7 +5,6 @@ require 'puffery/builder/base'
 require 'puffery/builder/ad_group'
 require 'puffery/builder/ad'
 require 'puffery/builder/keyword'
-require 'puffery/builder/interpolated_string'
 require 'puffery/builder/dsl_builder'
 require 'puffery/builder/payload'
 
