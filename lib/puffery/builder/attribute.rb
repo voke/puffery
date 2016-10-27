@@ -16,11 +16,15 @@ module Puffery
       end
 
       def valid?
-        valid_length? && valid_bytesize? && valid_words?
+        valid_length? && valid_bytesize? && valid_words? && valid_inclusion?
       end
 
       def to_s
         value
+      end
+
+      def valid_inclusion?
+        inclusion.any? ? inclusion.include?(value) : true
       end
 
       def valid_words?

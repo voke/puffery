@@ -11,6 +11,17 @@ describe Puffery::Builder::Attribute do
 
   end
 
+  describe '#valid_inclusion?' do
+
+    it 'returns true of values is included' do
+      attribute = Puffery::Builder::Attribute.new('phrase', nil,
+        inclusion: ['broad', 'phrase', 'exact'])
+      attribute.inclusion.must_equal ['broad', 'phrase', 'exact']
+      attribute.valid_inclusion?.must_equal true
+    end
+
+  end
+
   describe '#valid_length?' do
 
     it 'returns false when length > max_chars' do
