@@ -7,17 +7,6 @@ end
 
 describe Puffery::Builder::Base do
 
-  describe '#write_bulk_attributes' do
-
-    it 'sets multiple attributes at once' do
-      dummy = DummyClass.new(nil)
-      dummy.write_bulk_attributes(text: 'foo', desc: 'bar')
-      dummy.text.must_equal 'foo'
-      dummy.desc.must_equal 'bar'
-    end
-
-  end
-
   describe '.attribute' do
 
     it 'defines reader and setter methods' do
