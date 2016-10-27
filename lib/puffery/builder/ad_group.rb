@@ -8,7 +8,7 @@ module Puffery
       attribute :campaign_token
 
       def initialize(subject)
-        self.subject = Proxy.new(subject)
+        super(Proxy.new(subject))
         self.keywords = []
         self.ads = []
       end
