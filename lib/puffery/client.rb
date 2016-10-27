@@ -61,16 +61,5 @@ module Puffery
       end
     end
 
-    # Update partial resources
-    def patch(payload)
-    end
-
-    # PUT request replace whole object
-    # PUTting the same data multiple times to the same resource
-    # should not result in different resources
-    def put(payload)
-
-    end
-
   end
 end
