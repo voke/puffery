@@ -2,6 +2,8 @@ module Puffery
   module Builder
     class Base
 
+      NoBlockGivenError = Class.new(StandardError)
+
       attr_accessor :errors, :subject, :attributes
 
       def initialize(subject)
@@ -49,7 +51,8 @@ module Puffery
       end
 
       def eval_dsl_block(&block)
-        builder = DslBuilder.wrap(self, attributes)
+        raise(NoBlockGivenError, 'Needs block') unless block_given?
+        builder = DslBuilder.wrap(self, self.class.attribute_names)
         builder.instance_exec(&block)
       end
 
