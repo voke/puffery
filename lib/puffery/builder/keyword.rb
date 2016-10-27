@@ -23,12 +23,6 @@ module Puffery
         self.match_type = DEFAULT_MATCH_TYPE
       end
 
-      def set_attributes(attrs = {})
-        attrs.each do |key, value|
-          public_send("#{key}=", value)
-        end
-      end
-
       def validate
         validate_presence_of(:text, :match_type)
       end
