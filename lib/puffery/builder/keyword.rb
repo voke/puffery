@@ -6,17 +6,14 @@ module Puffery
 
       DEFAULT_MATCH_TYPE = :broad
       MATCH_TYPES = { broad: 'broad', phrase: 'phrase', exact: 'exact' }
-      MAX_CHARS = 80
-      MAX_WORDS = 10
-      MAX_BYTESIZE = 2047
 
       # NOTE: A list of known invalid chars can be found here:
       # http://support.google.com/adwords/bin/answer.py?hl=en&answer=53539
       INVALID_CHARS = /[,!@%^*()={};~`´’<>?\|®™²»–]/
 
-      attribute :text, max_chars: MAX_CHARS, max_words: MAX_WORDS
+      attribute :text, max_chars: 80, max_words: 10
       attribute :match_type, inclusion: MATCH_TYPES.values
-      attribute :url, max_bytesize: MAX_BYTESIZE
+      attribute :url, max_bytesize: 2047
 
       def initialize(subject)
         super(subject)
