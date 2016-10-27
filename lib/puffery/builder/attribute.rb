@@ -7,7 +7,7 @@ module Puffery
 
       def initialize(value, subject, max_words: nil, max_bytesize: nil,
         max_chars: nil, inclusion: [])
-        self.value = value
+        self.value = value.to_s
         self.subject = subject
         self.max_chars = max_chars
         self.max_bytesize = max_bytesize

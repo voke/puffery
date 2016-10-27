@@ -9,7 +9,7 @@ module Puffery
 
       def self.wrap(target, valid_attributes = [], setter: DELEGATE_WRITE_METHOD)
         new(target).tap do |instance|
-          instance.valid_attributes = valid_attributes.map(&:to_sym)
+          instance.valid_attributes = valid_attributes
           instance.setter = setter
         end
       end

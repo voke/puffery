@@ -40,7 +40,7 @@ module Puffery
       end
 
       def self.filter_invalid_chars(text)
-        text.gsub(INVALID_CHARS, '').squeeze(' ').strip if text
+        text.gsub(INVALID_CHARS, '').squeeze(' ').strip
       end
 
     end
