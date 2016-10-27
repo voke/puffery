@@ -40,12 +40,6 @@ module Puffery
         end
       end
 
-      def write_bulk_attributes(attrs = {})
-        attrs.each do |key, value|
-          write_attribute(key, value)
-        end
-      end
-
       def self.attribute_names
         attributes.keys
       end

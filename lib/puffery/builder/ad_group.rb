@@ -60,9 +60,9 @@ module Puffery
       #  end
       #
       # returns nothing
-      def keyword(text = nil, attrs = {}, &block)
+      def keyword(text = nil, &block)
         keyword = Keyword.new(subject)
-        keyword.write_bulk_attributes({ text: text.to_s }.merge(attrs))
+        keyword.text = text
         keyword.eval_dsl_block(&block) if block_given?
         keywords.push(keyword)
       end

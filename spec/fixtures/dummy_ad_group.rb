@@ -28,6 +28,8 @@ Puffery.register :dummy do
   end
 
   keyword "mars #{name}"
-  keyword 'meet martians', url: 'http://example.com/martians'
+  keyword 'meet martians' do
+    url 'http://example.com/martians'
+  end
 
 end
