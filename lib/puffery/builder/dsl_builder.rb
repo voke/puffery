@@ -5,12 +5,10 @@ module Puffery
     class DslBuilder < SimpleDelegator
 
       attr_accessor :valid_attributes, :setter
-      DELEGATE_WRITE_METHOD = :write_attribute
 
-      def self.wrap(target, valid_attributes = [], setter: DELEGATE_WRITE_METHOD)
+      def self.wrap(target, valid_attributes = [])
         new(target).tap do |instance|
           instance.valid_attributes = valid_attributes
-          instance.setter = setter
         end
       end
 
@@ -19,7 +17,7 @@ module Puffery
       end
 
       def _set_attribute(name, value)
-        __getobj__.public_send(setter, name, value)
+        __getobj__.public_send("#{name}=", value)
       end
 
       def method_missing(method_name, *arguments, &block)
