@@ -30,9 +30,7 @@ module Puffery
       end
 
       def validate
-        errors << "Invalid matchtype" unless valid_match_type?
-        errors << "Invalid char length" unless valid_char_length?
-        errors << "Too many words" unless valid_words_count?
+        validate_presence_of(:text, :match_type)
       end
 
       def match_type=(value)

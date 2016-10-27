@@ -15,7 +15,8 @@ module Puffery
       attribute :url, max_bytesize: 1024
 
       def validate
-        validate_presence_of(self.class.attribute_names)
+        validate_presence_of(:headline, :description1, :description2,
+          :display_url, :url)
       end
 
     end
