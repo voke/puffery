@@ -67,8 +67,7 @@ module Puffery
       end
 
       def to_hash
-        #attributes
-        raise "fakk this shit"
+        attributes
       end
 
       def url_helper
