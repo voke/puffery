@@ -62,7 +62,7 @@ module Puffery
       # returns nothing
       def keyword(text = nil, &block)
         keyword = Keyword.new(subject)
-        keyword.text = text
+        keyword.text = text if text
         keyword.eval_dsl_block(&block) if block_given?
         keywords.push(keyword)
       end
