@@ -4,34 +4,29 @@ module Puffery
   module Builder
     class DslBuilder < SimpleDelegator
 
-      attr_accessor :_variations
+      attr_accessor :valid_attributes, :setter
+      DELEGATE_WRITE_METHOD = :write_attribute
 
-      def self.wrap(target)
+      def self.wrap(target, valid_attributes = [], setter: DELEGATE_WRITE_METHOD)
         new(target).tap do |instance|
-          instance._variations = Hash.new([])
+          instance.valid_attributes = valid_attributes.map(&:to_sym)
+          instance.setter = setter
         end
       end
 
-      def _valid_setter?(name)
-        __getobj__.dsl_attributes.include?(name)
+      def _valid_attribute?(name)
+        valid_attributes.include?(name.to_sym)
       end
 
-      def _add_variation(name, value)
-        _variations[name] += [value]
+      def _set_attribute(name, value)
+        __getobj__.public_send(setter, name, value)
       end
 
       def method_missing(method_name, *arguments, &block)
-        if _valid_setter?(method_name)
-          _add_variation(method_name, *arguments, &block)
+        if _valid_attribute?(method_name)
+          _set_attribute(method_name, *arguments, &block)
         else
           super
-        end
-      end
-
-      def finalize
-        _variations.each do |key, vars|
-          value = Input.extract(__getobj__, key, vars)
-          __getobj__.public_send("#{key}=", value)
         end
       end
 

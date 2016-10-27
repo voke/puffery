@@ -4,16 +4,13 @@ module Puffery
 
       attr_accessor :keywords, :ads
 
-      attributes :ad_group_name, :campaign_token
+      attribute :ad_group_name
+      attribute :campaign_token
 
       def initialize(subject)
         self.subject = Proxy.new(subject)
         self.keywords = []
         self.ads = []
-      end
-
-      def dsl_attributes
-        %i(ad_group_name campaign_token)
       end
 
       def validate
@@ -45,6 +42,24 @@ module Puffery
         ads.push(ad)
       end
 
+      def xad(&block)
+        ad = ExpandedAd.new(subject)
+        ad.eval_dsl_block(&block) if block_given?
+        ads.push(ad)
+      end
+
+      # Public: Adds keyword to AdGroup
+      #
+      # Examples
+      #
+      #  keyword('mars cruise', match_type: :broad)
+      #
+      #  keyword do
+      #   text 'mars cruise'
+      #   match_type :strict
+      #  end
+      #
+      # returns nothing
       def keyword(text = nil, attrs = {}, &block)
         keyword = Keyword.new(subject)
         keyword.text = text

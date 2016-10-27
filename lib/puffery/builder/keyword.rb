@@ -8,20 +8,19 @@ module Puffery
       MATCH_TYPES = { broad: 'broad', phrase: 'phrase', exact: 'exact' }
       MAX_CHARS = 80
       MAX_WORDS = 10
+      MAX_BYTESIZE = 2047
 
       # NOTE: A list of known invalid chars can be found here:
       # http://support.google.com/adwords/bin/answer.py?hl=en&answer=53539
       INVALID_CHARS = /[,!@%^*()={};~`´’<>?\|®™²»–]/
 
-      attributes :text, :match_type, :url
+      attribute :text, max_chars: MAX_CHARS, max_words: MAX_WORDS
+      attribute :match_type, inclusion: MATCH_TYPES.values
+      attribute :url, max_bytesize: MAX_BYTESIZE
 
       def initialize(subject)
-        self.match_type = DEFAULT_MATCH_TYPE
         super(subject)
-      end
-
-      def dsl_attributes
-        %i(text match_type url)
+        self.match_type = DEFAULT_MATCH_TYPE
       end
 
       def set_attributes(attrs = {})
@@ -36,24 +35,12 @@ module Puffery
         errors << "Too many words" unless valid_words_count?
       end
 
-      def valid_match_type?
-        MATCH_TYPES.values.include?(match_type)
-      end
-
-      def valid_char_length?
-        text.size > 0 && text.size < MAX_CHARS
-      end
-
-      def valid_words_count?
-        text.split.size < MAX_WORDS
-      end
-
       def match_type=(value)
-        @match_type = MATCH_TYPES.fetch(value.downcase.to_sym)
+        write_attribute(:match_type, MATCH_TYPES.fetch(value.downcase.to_sym))
       end
 
       def text=(value)
-        @text = Keyword.normalize(value)
+        write_attribute(:text, Keyword.normalize(value))
       end
 
       def self.normalize(text)

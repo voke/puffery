@@ -2,11 +2,68 @@ module Puffery
   module Builder
     class Base
 
-      attr_accessor :errors, :subject
+      attr_accessor :errors, :subject, :attributes
 
       def initialize(subject)
         self.subject = subject
         self.errors = []
+        self.attributes = {}
+      end
+
+      def self.attributes
+        @attributes ||= AttributeSet.new
+      end
+
+      def self.attribute(name, options = {})
+
+        self.attributes.add(name, options)
+
+        define_method("#{name}") do
+          read_attribute(name)
+        end
+
+        define_method("#{name}=") do |value|
+          write_attribute(name, value)
+	      end
+
+      end
+
+      def read_attribute(name)
+        self.attributes[name.to_sym]
+      end
+
+      def write_attribute(name, value)
+        if attributes[name].nil?
+          self.attributes[name] = self.class.attributes.valid_value(name, value)
+        end
+      end
+
+      def self.attribute_names
+        attributes.keys
+      end
+
+      def eval_dsl_block(&block)
+        builder = DslBuilder.wrap(self, attributes)
+        builder.instance_exec(&block)
+      end
+
+      def inspect
+        "#<#{self.class.name} #{inspect_attributes.join(', ')}>"
+      end
+
+      def inspect_attributes
+        attributes.map do |name, value|
+          "#{name}: #{value.inspect}"
+        end
+      end
+
+      def to_hash
+        #attributes
+        raise "fakk this shit"
+      end
+
+      def url_helper
+        Puffery.url_helper
       end
 
       def validate
@@ -21,51 +78,10 @@ module Puffery
         end
       end
 
-      def dsl_attributes
-        []
-      end
-
       def valid?
         errors.clear
         validate
         errors.empty?
-      end
-
-      def self.attributes(*attrs)
-        attr_accessor *attrs
-        attribute_names.concat(attrs)
-      end
-
-      def self.attribute_names
-        @attribute_names ||= []
-      end
-
-      def eval_dsl_block(&block)
-        builder = DslBuilder.wrap(self)
-        builder.instance_exec(&block)
-        builder.finalize
-      end
-
-      def attributes
-        Hash[self.class.attribute_names.map { |key| [key, send(key)] }]
-      end
-
-      def inspect
-        "#<#{self.class.name} #{inspect_attributes.join(', ')}>"
-      end
-
-      def inspect_attributes
-        attributes.map do |name, value|
-          "#{name}: #{value.inspect}"
-        end
-      end
-
-      def to_hash
-        attributes
-      end
-
-      def url_helper
-        Puffery.url_helper
       end
 
       def method_missing(method, *args, &block)

@@ -1,7 +1,7 @@
-
+require 'puffery/builder/attribute'
+require 'puffery/builder/attribute_set'
 require 'puffery/builder/proxy'
 require 'puffery/builder/base'
-require 'puffery/builder/input'
 require 'puffery/builder/ad_group'
 require 'puffery/builder/ad'
 require 'puffery/builder/keyword'
