@@ -1,3 +1,4 @@
+require 'logger'
 require 'puffery/version'
 require 'puffery/configuration'
 require 'puffery/client'
@@ -18,6 +19,12 @@ module Puffery
 
   def configure
     yield configuration
+  end
+
+  def logger
+    @logger ||= Logger.new($stdout).tap do |x|
+      x.progname = 'Puffery'
+    end
   end
 
   def debug?

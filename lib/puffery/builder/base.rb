@@ -2,52 +2,52 @@ module Puffery
   module Builder
     class Base
 
-      attr_accessor :errors, :subject
+      NoBlockGivenError = Class.new(StandardError)
+
+      attr_accessor :errors, :subject, :attributes
 
       def initialize(subject)
         self.subject = subject
         self.errors = []
+        self.attributes = {}
       end
 
-      def validate
-        raise NotImplementedError
+      def self.attributes
+        @attributes ||= AttributeSet.new
       end
 
-      def validate_presence_of(*attribute_names)
-        attribute_names.each do |name|
-          if public_send(name).to_s !~ /[^[:space:]]/
-            errors << "#{name} is missing"
-          end
+      def self.attribute(name, options = {})
+
+        self.attributes.add(name, options)
+
+        define_method("#{name}") do
+          read_attribute(name)
+        end
+
+        define_method("#{name}=") do |value|
+          write_attribute(name, value)
+	      end
+
+      end
+
+      def read_attribute(name)
+        self.attributes[name.to_sym]
+      end
+
+      def write_attribute(name, value)
+        if attributes[name].nil?
+          self.attributes[name] = self.class.attributes.valid_value(name, value)
         end
       end
 
-      def dsl_attributes
-        []
-      end
-
-      def valid?
-        errors.clear
-        validate
-        errors.empty?
-      end
-
-      def self.attributes(*attrs)
-        attr_accessor *attrs
-        attribute_names.concat(attrs)
-      end
-
       def self.attribute_names
-        @attribute_names ||= []
+        attributes.keys
       end
 
       def eval_dsl_block(&block)
-        builder = DslBuilder.wrap(self)
+        raise(NoBlockGivenError, 'Needs block') unless block_given?
+        builder = DslBuilder.wrap(self, self.class.attribute_names)
         builder.instance_exec(&block)
-        builder.finalize
-      end
-
-      def attributes
-        Hash[self.class.attribute_names.map { |key| [key, send(key)] }]
       end
 
       def inspect
@@ -66,6 +66,24 @@ module Puffery
 
       def url_helper
         Puffery.url_helper
+      end
+
+      def validate
+        raise NotImplementedError
+      end
+
+      def validate_presence_of(*attribute_names)
+        attribute_names.each do |name|
+          if public_send(name).to_s !~ /[^[:space:]]/
+            errors << "#{name} is missing"
+          end
+        end
+      end
+
+      def valid?
+        errors.clear
+        validate
+        errors.empty?
       end
 
       def method_missing(method, *args, &block)

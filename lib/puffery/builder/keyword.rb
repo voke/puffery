@@ -6,54 +6,30 @@ module Puffery
 
       DEFAULT_MATCH_TYPE = :broad
       MATCH_TYPES = { broad: 'broad', phrase: 'phrase', exact: 'exact' }
-      MAX_CHARS = 80
-      MAX_WORDS = 10
 
       # NOTE: A list of known invalid chars can be found here:
       # http://support.google.com/adwords/bin/answer.py?hl=en&answer=53539
       INVALID_CHARS = /[,!@%^*()={};~`´’<>?\|®™²»–]/
 
-      attributes :text, :match_type, :url
+      attribute :text, max_chars: 80, max_words: 10
+      attribute :match_type, inclusion: MATCH_TYPES.values
+      attribute :url, max_bytesize: 2047
 
       def initialize(subject)
-        self.match_type = DEFAULT_MATCH_TYPE
         super(subject)
-      end
-
-      def dsl_attributes
-        %i(text match_type url)
-      end
-
-      def set_attributes(attrs = {})
-        attrs.each do |key, value|
-          public_send("#{key}=", value)
-        end
+        self.match_type = DEFAULT_MATCH_TYPE
       end
 
       def validate
-        errors << "Invalid matchtype" unless valid_match_type?
-        errors << "Invalid char length" unless valid_char_length?
-        errors << "Too many words" unless valid_words_count?
-      end
-
-      def valid_match_type?
-        MATCH_TYPES.values.include?(match_type)
-      end
-
-      def valid_char_length?
-        text.size > 0 && text.size < MAX_CHARS
-      end
-
-      def valid_words_count?
-        text.split.size < MAX_WORDS
+        validate_presence_of(:text, :match_type)
       end
 
       def match_type=(value)
-        @match_type = MATCH_TYPES.fetch(value.downcase.to_sym)
+        write_attribute(:match_type, MATCH_TYPES.fetch(value.downcase.to_sym))
       end
 
       def text=(value)
-        @text = Keyword.normalize(value)
+        write_attribute(:text, Keyword.normalize(value))
       end
 
       def self.normalize(text)
@@ -61,7 +37,7 @@ module Puffery
       end
 
       def self.filter_invalid_chars(text)
-        text.gsub(INVALID_CHARS, '').squeeze(' ').strip if text
+        text.gsub(INVALID_CHARS, '').squeeze(' ').strip
       end
 
     end
