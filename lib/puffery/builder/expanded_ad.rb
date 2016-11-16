@@ -10,8 +10,8 @@ module Puffery
 
       attribute :description, max_chars: 80
 
-      attribute :path1
-      attribute :path2
+      attribute :path1, max_chars: 15
+      attribute :path2, max_chars: 15
 
       attribute :url, max_bytesize: 1024
 
