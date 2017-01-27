@@ -37,9 +37,7 @@ module Puffery
       end
 
       def ad(&block)
-        ad = Ad.new(subject)
-        ad.eval_dsl_block(&block) if block_given?
-        ads.push(ad)
+        raise(DeprecatedError, "Text ads are replaced by expanded text ads. Use xad()")
       end
 
       def xad(&block)

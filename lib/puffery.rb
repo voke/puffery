@@ -11,6 +11,8 @@ require 'puffery/engine' if defined?(Rails)
 
 module Puffery
 
+  DeprecatedError = Class.new(StandardError)
+
   module_function
 
   def configuration
